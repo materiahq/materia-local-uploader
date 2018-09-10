@@ -1,0 +1,46 @@
+:host {
+	display: flex;
+	flex: 1;
+	width: 100%;
+	flex-direction: row;
+}
+mat-card {
+	margin: 8px;
+	width: 100%;
+	overflow: auto;
+	padding: 0;
+	mat-divider {
+		position: relative;
+	}
+}
+p {
+	color: #666;
+}
+i.fa {
+	font-size: 24px;
+	width: 29px;
+}
+.desc {
+	margin-bottom: 20px;
+	margin-right: 40px;
+}
+.desc-title {
+	font-size: 20px;
+	font-weight: 400;
+	margin-bottom: 10px;
+	mat-icon {
+		margin-right: 8px;
+	}
+	i.fa {
+		font-size: 24px;
+		width: 24px;
+		margin-right: 8px;
+	}
+}
+.desc-value {
+	font-size: 18px;
+	font-weight: 200;
+}
+td.mat-cell {
+	margin: 0 10px;
+}

@@ -1,0 +1,30 @@
+.drop-area {
+    margin: 0 15px;
+    min-height: 150px;
+	background: lightgray;
+	border: solid;
+    border-radius: 5px;
+    width: 90%;
+	border-color: #1565c0;
+	border-width: 3px;
+	border-style: dashed;
+	input {
+		display: none;
+	}
+}
+.error {
+    background: #F44336;
+    border-radius: 5px;
+    width: 90%;
+    color: white; 
+    margin: 20px;
+}
+.success {
+    background: #4CAF50;
+    border-radius: 5px;
+    padding: 15px;
+    width: 90%;
+    color: white; 
+    margin: 20px;
+    overflow: auto;
+}

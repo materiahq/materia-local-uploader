@@ -1,0 +1,197 @@
+<mat-card fxFlex fxLayout="column">
+  <mat-toolbar fxLayout="row" style="min-height: 60px;">
+    <h1 class="mat-headline">Local Uploader</h1>
+  </mat-toolbar>
+  <div fxLayout="column" style="padding: 0 24px 24px 24px;">
+    <div fxLayout="row" fxLayoutAlign="start center" style="min-height: 50px; margin-bottom: 10px;">
+      <h2 class="mat-title" fxLayout="row" fxLayoutAlign="start center" fxFlex style="margin-bottom: 0">
+        <mat-icon [style.marginRight.px]="8">settings_input_component</mat-icon>
+        Upload endpoints list
+      </h2>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <button mat-mini-fab matTooltip="Add upload endpoint" matTooltipPosition="left" (click)="openEndpointEditor()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-accordion *ngIf="uploadEndpoints">
+      <mat-expansion-panel *ngFor="let e of uploadEndpoints">
+        <mat-expansion-panel-header>
+          <mat-panel-title fxLayout="row" fxLayoutAlign="start center">
+            api{{e.url}}
+          </mat-panel-title>
+          <mat-panel-description fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>auth</mat-icon>
+            {{e.permissions ? e.permissions : 'anyone'}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="start center" class="desc">
+              <button mat-icon-button matTooltip="Menu" style="margin-right: 5px;" [matMenuTriggerFor]="menu">
+                <mat-icon>settings</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="editEndpoint(e)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteEndpoint(e)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <span class="desc-value" style="font-size: 25px; font-size: 300">{{apiUrl}}{{e.url}}</span>
+            </div>
+            <div fxLayout="row wrap" style="padding: 0 15px 15px 15px;">
+              <div fxLayout="column" class="desc">
+                <div fxLayout="row" fxLayoutAlign="start center" class="desc-title">
+                  <mat-icon>folder</mat-icon>
+                  <span>Destination folder</span>
+                </div>
+                <span class="desc-value">materiaRoot/{{e.dest}}</span>
+              </div>
+              <div fxLayout="column" class="desc">
+                <div fxLayout="row" fxLayoutAlign="start center" class="desc-title">
+                  <i class="fa fa-database fa-2px" aria-hidden="true"></i>
+                  <span>Size limit</span>
+                </div>
+                <span class="desc-value">{{e.sizeLimit | materiaByte}}</span>
+              </div>
+              <div fxLayout="column" class="desc">
+                <div fxLayout="row" fxLayoutAlign="start center" class="desc-title">
+                  <mat-icon>file_copy</mat-icon>
+                  <span>MIME Types</span>
+                </div>
+                <mat-chip-list *ngIf="e.mimeTypes && e.mimeTypes.length">
+                  <mat-chip *ngFor="let type of e.mimeTypes">{{ type }}</mat-chip>
+                </mat-chip-list>
+                <mat-chip-list *ngIf="!e.mimeTypes || ! e.mimeTypes.length">
+                  <mat-chip>All</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div fxLayout="column" class="desc">
+                <div fxLayout="row" fxLayoutAlign="start center" class="desc-title">
+                  <mat-icon>https</mat-icon>
+                  <span>Permissions</span>
+                </div>
+                <mat-chip-list *ngIf="e.permissions && e.permissions.length">
+                  <mat-chip *ngFor="let perm of e.permissions">{{ perm }}</mat-chip>
+                </mat-chip-list>
+                <mat-chip-list *ngIf="!e.permissions || ! e.permissions.length">
+                  <mat-chip>Anyone</mat-chip>
+                </mat-chip-list>
+              </div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <h4 class="desc-value" style="font-size: 20px; font-size: 300;">Test your endpoint</h4>
+            <div fxLayout="column" style="width: 100%; min-height: 250px;">
+              <materia-upload-form [type]="e.type ? e.type : 'single'" [url]="apiUrl + e.url" (uploadSucceed)="getUploadedFiles()"></materia-upload-form>
+            </div>
+          </div>
+        </ng-template>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div *ngIf="! uploadEndpoints" fxLayout="column" fxLayoutAlign="center center" style="height: 200px;">
+      <span style="margin: 15px; font-style: italic;">You haven't any upload endpoints yet</span>
+      <button mat-raised-button color="primary" (click)="openEndpointEditor()">
+        Add endpoint
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="start center" style="min-height: 50px; margin-top: 20px; margin-bottom: 10px;">
+      <h2 class="mat-title" fxLayout="row" fxLayoutAlign="start center" fxFlex style="margin-bottom: 0">
+        <mat-icon [style.marginRight.px]="8">cloud_download</mat-icon>
+        <span [matBadge]="uploadedFiles?.length || 0" matBadgeOverlap="false" color="warn">Uploaded Files</span>
+      </h2>
+    </div>
+    <div fxLayout="column">
+        <div *ngIf="! uploadedFiles || ! uploadedFiles.length" fxLayout="column" fxLayoutAlign="center center" style="height: 200px;">
+            <span style="margin: 15px; font-style: italic;">You haven't any uploaded files yet</span>
+          </div>
+      <div fxLayout="column" *ngIf="uploadedFiles && uploadedFiles.length">
+        <table mat-table [dataSource]="uploadedFiles" class="mat-elevation-z8" style="margin-bottom: 15px;">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="size">
+            <th mat-header-cell *matHeaderCellDef> Size </th>
+            <td mat-cell *matCellDef="let element"> {{ element.size | materiaByte }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> {{ element.type }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="uploaded_at">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.uploaded_at | date:'medium' }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['name', 'size', 'type', 'uploaded_at']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'size', 'type', 'uploaded_at'];"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <ng-template #endpointEditor>
+    <div fxLayout="column">
+      <mat-toolbar color="primary">
+        Upload Endpoint Editor
+      </mat-toolbar>
+      <form [formGroup]="endpointForm" fxLayout="column" style="padding: 0 24px 24px 24px;">
+        <mat-form-field>
+          <mat-select formControlName="type" placeholder="Upload type">
+            <mat-option value="single">Single</mat-option>
+            <mat-option value="multiple">Multiple</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Url" formControlName="url">
+          <span matPrefix>api/&nbsp;</span>
+          <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">You already have a POST endpoint with this
+            name</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Destination folder" formControlName="dest">
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-form-field>
+            <input matInput placeholder="File size limit (bytes)" type="number" formControlName="sizeLimit">
+          </mat-form-field>
+          <span style="margin: 0 10px; font-weight: bold;">
+             {{ endpointForm.controls['sizeLimit'].value | materiaByte }}
+          </span>
+        </div>
+        <mat-form-field *ngIf="endpointForm.controls['type'].value === 'multiple'">
+          <input matInput placeholder="Max file count" type="number" formControlName="maxFileCount">
+        </mat-form-field>
+        <mat-form-field class="example-chip-list">
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let type of mimeTypesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
+              {{type}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="MIME types allowed" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addAllowedMimeType($event)">
+          </mat-chip-list>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Permissions" formControlName="permissions" multiple>
+            <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" mat-dialog-close="save" style="margin-right: 10px;">SAVE</button>
+          <button mat-raised-button mat-dialog-close="cancel">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</mat-card>
+<materia-lu-confirm-modal [message]="deleteMessage" [messageDetail]="deleteMessageDetail" [buttonNames]="['CONFIRM', 'CANCEL']"></materia-lu-confirm-modal>

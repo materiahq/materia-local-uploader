@@ -1,0 +1,12 @@
+<ng-template #confirmModal>
+  <div mat-dialog-title>
+    {{message}}
+  </div>
+  <div mat-dialog-content style="margin-bottom: 15px;">
+    {{messageDetail}}
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary" mat-dialog-close="confirm">{{buttonNames[0]}}</button>
+    <button mat-raised-button mat-dialog-close="cancel">{{buttonNames[1]}}</button>
+  </div>
+</ng-template>

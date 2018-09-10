@@ -1,0 +1,18 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "rootDir": "./server/",
+        "outDir": "./dist/server",
+        "sourceMap": true,
+        "declaration": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "ES6"
+    },
+    "include": [
+        "server/controllers/upload.ctrl.ts",
+        "server/lib/local-uploader.ts",
+        "server/index.ts",
+        "typings/index.d.ts"
+    ]
+}
