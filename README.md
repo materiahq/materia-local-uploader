@@ -1,6 +1,7 @@
 # Materia - Local Uploader
 
 Upload Files to your materia application folder, through multipart/form-data.
+
 Warning: This addon is not scallable.
 
 ## Features

@@ -2,7 +2,7 @@
   "name": "@materia/local-uploader",
   "version": "0.1.0",
   "description": "Upload files with multipart/form-data",
-  "author": "jeanmarc.royy@gmail.com",
+  "author": "jean-marc@getmateria.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/geoastronaute/materia-multer/issues"
