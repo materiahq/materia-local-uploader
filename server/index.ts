@@ -1,4 +1,4 @@
-import {join } from 'path';
+import { join } from 'path';
 
 export default class MateriaLocalUploader {
     public static displayName = 'Local Uploader';
@@ -8,10 +8,6 @@ export default class MateriaLocalUploader {
     ];
 
     constructor(private app, private config) { }
-
-    load() {
-
-    }
 
     afterLoadAPI() {
         if (this.config && this.config.endpoints && this.config.endpoints.length) {
@@ -38,7 +34,7 @@ export default class MateriaLocalUploader {
                     path: join(this.app.path, 'node_modules', '@materia/local-uploader'),
                     logo: MateriaLocalUploader.logo
                 }
-            });
+            }, { save: false });
         });
     }
 }
