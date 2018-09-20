@@ -141,7 +141,7 @@
     </div>
   </div>
   <ng-template #endpointEditor>
-    <div fxLayout="column">
+    <div fxLayout="column" style="overflow: auto;">
       <mat-toolbar color="primary">
         Upload Endpoint Editor
       </mat-toolbar>
@@ -191,6 +191,22 @@
             <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-checkbox formControlName="fetch_uploaded_file">Fetch uploaded file endpoint</mat-checkbox>
+        <div *ngIf="endpointForm.controls['fetch_uploaded_file'].value" fxLayout="column">
+          <mat-form-field>
+            <input matInput placeholder="Fetch Uploaded File url" formControlName="fetch_uploaded_file_url">
+            <span matPrefix>api/&nbsp;</span>
+            <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">
+              You already have a POST endpoint with this name
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Fetch Uploaded File Permissions" formControlName="fetch_uploaded_file_permissions" multiple>
+              <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <div fxLayout="row" fxLayoutAlign="center center">
           <button mat-raised-button color="primary" mat-dialog-close="save" style="margin-right: 10px;">SAVE</button>
           <button mat-raised-button mat-dialog-close="cancel">CANCEL</button>

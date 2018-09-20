@@ -36,6 +36,7 @@ export class LocalUploaderViewComponent implements OnInit {
     deleteMessageDetail: string;
     endpoints: any[];
     selectedEndpoint: any;
+    watchingFormUrl: boolean;
 
     get uploadEndpoints() {
         if (this.settings && this.settings.endpoints && this.settings.endpoints.length) {
@@ -74,7 +75,7 @@ export class LocalUploaderViewComponent implements OnInit {
     }
 
     addEndpoint(newEndpoint) {
-        if (! this.settings.endpoints) {
+        if (!this.settings.endpoints) {
             this.settings.endpoints = [];
         }
         this.settings.endpoints.push(newEndpoint);
@@ -89,7 +90,7 @@ export class LocalUploaderViewComponent implements OnInit {
 
     openEndpointEditor() {
         this.initEndpointForm();
-        const dialogRef = this.dialog.open(this.endpointEditor, {panelClass: 'no-padding', maxWidth: '350px'});
+        const dialogRef = this.dialog.open(this.endpointEditor, { panelClass: 'no-padding', maxWidth: '350px' });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
@@ -97,6 +98,12 @@ export class LocalUploaderViewComponent implements OnInit {
                 newEndpoint.mime_types = this.mime_typesAllowed;
                 if (newEndpoint.type === 'single') {
                     delete newEndpoint.max_file_count;
+                }
+                if (!newEndpoint.fetch_uploaded_file) {
+                    delete newEndpoint.fetch_uploaded_file_url;
+                    delete newEndpoint.fetch_uploaded_file_permissions;
+                } else {
+                    newEndpoint.fetch_uploaded_file_url = `/${this.endpointForm.controls['fetch_uploaded_file_url'].value}`;
                 }
                 this.addEndpoint(newEndpoint);
             }
@@ -106,7 +113,7 @@ export class LocalUploaderViewComponent implements OnInit {
     editEndpoint(endpoint) {
         this.initEndpointFormWithValue(endpoint);
         this.selectedEndpoint = endpoint;
-        const dialogRef = this.dialog.open(this.endpointEditor, {panelClass: 'no-padding', maxWidth: '350px'});
+        const dialogRef = this.dialog.open(this.endpointEditor, { panelClass: 'no-padding', maxWidth: '350px' });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
@@ -114,6 +121,12 @@ export class LocalUploaderViewComponent implements OnInit {
                 newEndpoint.mime_types = this.mime_typesAllowed;
                 if (newEndpoint.type === 'single') {
                     delete newEndpoint.max_file_count;
+                }
+                if (!newEndpoint.fetch_uploaded_file) {
+                    delete newEndpoint.fetch_uploaded_file_url;
+                    delete newEndpoint.fetch_uploaded_file_permissions;
+                } else {
+                    newEndpoint.fetch_uploaded_file_url = `${endpoint.url}/:name`;
                 }
                 this.updateEndpoint(newEndpoint);
             }
@@ -155,20 +168,36 @@ export class LocalUploaderViewComponent implements OnInit {
             input_name: ['file', Validators.required],
             size_limit: 10000000,
             permissions: [['Anyone']],
-            max_file_count: null
+            max_file_count: null,
+            fetch_uploaded_file: false,
+            fetch_uploaded_file_url: [{ value: '', disabled: true }],
+            fetch_uploaded_file_permissions: [['Anyone']]
         });
+        this.watchFormUrl();
     }
 
     private initEndpointFormWithValue(endpoint) {
         this.mime_typesAllowed = endpoint.mime_types ? [...endpoint.mime_types] : [];
         this.endpointForm = this.fb.group({
             type: [endpoint.type ? endpoint.type : 'single', Validators.required],
-            url: [{value: endpoint.url.substr(1), disabled: true}, Validators.required],
+            url: [{ value: endpoint.url.substr(1), disabled: true }, Validators.required],
             dest: [endpoint.dest, Validators.required],
             input_name: [endpoint.input_name, Validators.required],
             size_limit: endpoint.size_limit,
             permissions: [endpoint.permissions],
-            max_file_count: endpoint.max_file_count ? endpoint.max_file_count : null
+            max_file_count: endpoint.max_file_count ? endpoint.max_file_count : null,
+            fetch_uploaded_file: endpoint.fetch_uploaded_file,
+            fetch_uploaded_file_url: endpoint.fetch_uploaded_file ?
+                [{ value: endpoint.fetch_uploaded_file_url, disabled: true }] :
+                [{ value: `${endpoint.url.substr(1)}/:name`, disabled: true }],
+            fetch_uploaded_file_permissions: endpoint.fetch_uploaded_file ? [endpoint.fetch_uploaded_file_permissions] : [['Anyone']]
+        });
+        this.watchFormUrl();
+    }
+
+    private watchFormUrl() {
+        this.endpointForm.controls['url'].valueChanges.subscribe((val) => {
+            this.endpointForm.controls['fetch_uploaded_file_url'].setValue(`${val}/:name`);
         });
     }
 
@@ -187,9 +216,9 @@ export class LocalUploaderViewComponent implements OnInit {
         const existingUrl = this.endpoints.map(e => e.method + e.url);
         if (existingUrl.indexOf(`post/${url}`) !== -1) {
             return {
-              exists: true
+                exists: true
             };
         }
         return null;
-      }
+    }
 }
