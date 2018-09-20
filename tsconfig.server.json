@@ -10,6 +10,7 @@
         "target": "ES6"
     },
     "include": [
+        "server/models/queries/uploaded-file.ts",
         "server/controllers/upload.ctrl.ts",
         "server/lib/local-uploader.ts",
         "server/index.ts",

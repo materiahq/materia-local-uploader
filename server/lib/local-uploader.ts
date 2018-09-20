@@ -30,6 +30,7 @@ export class LocalUploader {
                         return this.app.entities.get('uploaded_file').getQuery('create').run({
                             name: file.filename,
                             original_name: file.originalname,
+                            from: req.url,
                             path: file.path,
                             type: file.mimetype,
                             size: file.size,
@@ -58,6 +59,7 @@ export class LocalUploader {
                 this.app.entities.get('uploaded_file').getQuery('create').run({
                     name: req.file.filename,
                     original_name: req.file.originalname,
+                    from: req.url,
                     path: req.file.path,
                     type: req.file.mimetype,
                     size: req.file.size,

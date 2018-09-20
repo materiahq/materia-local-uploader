@@ -35,6 +35,21 @@ export default class MateriaLocalUploader {
                     logo: MateriaLocalUploader.logo
                 }
             }, { save: false });
+            if (endpoint.fetch_uploaded_file) {
+                this.app.api.add({
+                    method: 'get',
+                    url: endpoint.fetch_uploaded_file_url,
+                    controller: 'upload',
+                    action: 'getFileContent',
+                    permissions: endpoint.fetch_uploaded_file_permissions,
+                    fromAddon: {
+                        name: MateriaLocalUploader.displayName,
+                        package: '@materia/local-uploader',
+                        path: join(this.app.path, 'node_modules', '@materia/local-uploader'),
+                        logo: MateriaLocalUploader.logo
+                    }
+                }, { save: false });
+            }
         });
     }
 }

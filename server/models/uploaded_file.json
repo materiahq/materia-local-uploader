@@ -1,67 +1,111 @@
 {
-	"fields": [
-		{
-			"name": "id_uploaded",
-			"type": "number",
-			"read": true,
-			"write": false,
-			"primary": true,
-			"unique": true,
-			"required": true,
-			"autoIncrement": true,
-			"component": "input"
-		},
-		{
-			"name": "name",
-			"type": "text",
-			"read": true,
-			"write": true,
-			"required": true,
-			"component": "input"
-        },
-        {
-			"name": "original_name",
-			"type": "text",
-			"read": true,
-			"write": true,
-			"required": true,
-			"component": "input"
-        },
-        {
-			"name": "type",
-			"type": "text",
-			"read": true,
-			"write": true,
-			"required": true,
-			"component": "input"
-        },
-        {
-			"name": "path",
-			"type": "text",
-			"read": true,
-			"write": true,
-			"required": true,
-			"component": "input"
-        },
-        {
-			"name": "size",
-			"type": "number",
-			"read": true,
-			"write": true,
-			"required": true,
-			"component": "input"
-        },
-        {
-			"name": "uploaded_at",
-			"type": "date",
-			"read": true,
-			"write": true,
-			"required": true,
-			"component": "input"
-		}
-	],
-	"relations": [
-	],
-	"queries": [
-	]
+  "fields": [{
+      "name": "id_uploaded",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "primary": true,
+      "unique": true,
+      "required": true,
+      "autoIncrement": true,
+      "component": "input"
+    },
+    {
+      "name": "name",
+      "type": "text",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    },
+    {
+      "name": "original_name",
+      "type": "text",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    },
+    {
+      "name": "type",
+      "type": "text",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    },
+    {
+      "name": "from",
+      "type": "text",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    },
+    {
+      "name": "path",
+      "type": "text",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    },
+    {
+      "name": "uploaded_at",
+      "type": "date",
+      "read": true,
+      "write": true,
+      "required": true,
+      "component": "input"
+    }
+  ],
+  "relations": [],
+  "queries": [{
+      "id": "getFileContentStream",
+      "type": "custom",
+      "opts": {
+        "model": "uploaded-file",
+        "action": "getFileContentStream",
+        "params": [{
+          "name": "name",
+          "type": "text",
+          "required": true,
+          "component": "input"
+        }]
+      }
+    },
+    {
+      "id": "getFileContent",
+      "type": "custom",
+      "opts": {
+        "model": "uploaded-file",
+        "action": "getFileContent",
+        "params": [{
+          "name": "name",
+          "type": "text",
+          "required": true,
+          "component": "input"
+		}]
+      }
+    },
+    {
+      "id": "getByName",
+      "type": "findOne",
+      "opts": {
+        "conditions": [{
+          "name": "name",
+          "operator": "=",
+          "value": "=name"
+		}]
+      }
+    }
+  ]
 }
