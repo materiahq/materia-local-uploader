@@ -31,7 +31,7 @@ export class LocalUploaderViewComponent implements OnInit {
     permissions: Object;
     endpointForm: FormGroup;
     edition: boolean;
-    mimeTypesAllowed: any[];
+    mime_typesAllowed: any[];
     deleteMessage: string;
     deleteMessageDetail: string;
     endpoints: any[];
@@ -94,9 +94,9 @@ export class LocalUploaderViewComponent implements OnInit {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
                 newEndpoint.url = `/${newEndpoint.url}`;
-                newEndpoint.mimeTypes = this.mimeTypesAllowed;
+                newEndpoint.mime_types = this.mime_typesAllowed;
                 if (newEndpoint.type === 'single') {
-                    delete newEndpoint.maxFileCount;
+                    delete newEndpoint.max_file_count;
                 }
                 this.addEndpoint(newEndpoint);
             }
@@ -111,9 +111,9 @@ export class LocalUploaderViewComponent implements OnInit {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
                 newEndpoint.url = endpoint.url;
-                newEndpoint.mimeTypes = this.mimeTypesAllowed;
+                newEndpoint.mime_types = this.mime_typesAllowed;
                 if (newEndpoint.type === 'single') {
-                    delete newEndpoint.maxFileCount;
+                    delete newEndpoint.max_file_count;
                 }
                 this.updateEndpoint(newEndpoint);
             }
@@ -134,7 +134,7 @@ export class LocalUploaderViewComponent implements OnInit {
 
     addAllowedMimeType(type) {
         if (type.value && type.value.length > 5) {
-            this.mimeTypesAllowed.push(type.value);
+            this.mime_typesAllowed.push(type.value);
         }
         if (type.input) {
             type.input.value = '';
@@ -142,31 +142,33 @@ export class LocalUploaderViewComponent implements OnInit {
     }
 
     removeAllowedMimeType(type) {
-        const index = this.mimeTypesAllowed.findIndex(t => t === type.value);
-        this.mimeTypesAllowed.splice(index, 1);
+        const index = this.mime_typesAllowed.findIndex(t => t === type.value);
+        this.mime_typesAllowed.splice(index, 1);
     }
 
     private initEndpointForm() {
-        this.mimeTypesAllowed = [];
+        this.mime_typesAllowed = [];
         this.endpointForm = this.fb.group({
             type: ['single', Validators.required],
             url: ['', [Validators.required, this.urlEndpointValidator.bind(this)]],
             dest: ['uploads', Validators.required],
-            sizeLimit: 10000000,
+            input_name: ['file', Validators.required],
+            size_limit: 10000000,
             permissions: [['Anyone']],
-            maxFileCount: null
+            max_file_count: null
         });
     }
 
     private initEndpointFormWithValue(endpoint) {
-        this.mimeTypesAllowed = endpoint.mimeTypes ? [...endpoint.mimeTypes] : [];
+        this.mime_typesAllowed = endpoint.mime_types ? [...endpoint.mime_types] : [];
         this.endpointForm = this.fb.group({
             type: [endpoint.type ? endpoint.type : 'single', Validators.required],
             url: [{value: endpoint.url.substr(1), disabled: true}, Validators.required],
             dest: [endpoint.dest, Validators.required],
-            sizeLimit: endpoint.sizeLimit,
+            input_name: [endpoint.input_name, Validators.required],
+            size_limit: endpoint.size_limit,
             permissions: [endpoint.permissions],
-            maxFileCount: endpoint.maxFileCount ? endpoint.maxFileCount : null
+            max_file_count: endpoint.max_file_count ? endpoint.max_file_count : null
         });
     }
 

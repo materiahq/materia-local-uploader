@@ -19,8 +19,7 @@ export class LocalUploader {
         const upload = this.configureMulter(req, res);
         const config = this.getEndpointConfig(req.url);
         return new Promise((resolve, reject) => {
-            console.log('Max File Count :', config.maxFileCount ? config.maxFileCount : null);
-            upload.array('files', config.maxFileCount ? config.maxFileCount : null)(req, res, err => {
+            upload.array(config.input_name, config.max_file_count ? config.max_file_count : null)(req, res, err => {
                 if (err) {
                     return reject(err);
                 }
@@ -51,7 +50,8 @@ export class LocalUploader {
     uploadSingle(req, res) {
         const upload = this.configureMulter(req, res);
         return new Promise((resolve, reject) => {
-            upload.single('file')(req, res, err => {
+            const config = this.getEndpointConfig(req.url);
+            upload.single(config.input_name)(req, res, err => {
                 if (err) {
                     return reject(err);
                 }
@@ -73,12 +73,12 @@ export class LocalUploader {
         return multer({
             dest: `${this.app.path}/${config.dest ? config.dest : 'uploads'}`,
             limits: {
-                fileSize: config.sizeLimit ? config.sizeLimit : 10000000
+                fileSize: config.size_limit ? config.size_limit : 10000000
             },
             fileFilter: (_req, file, cb) => {
-                if (config.mimeTypes && config.mimeTypes.length) {
+                if (config.mime_types && config.mime_types.length) {
                     let match = false;
-                    config.mimeTypes.forEach(type => {
+                    config.mime_types.forEach(type => {
                         if (file.mimetype === type) {
                             match = true;
                         }
@@ -86,7 +86,7 @@ export class LocalUploader {
                     if (match) {
                         cb(null, true);
                     } else {
-                        return cb(`Only following ${config.mimeTypes} mimetypes are allowed`);
+                        return cb(`Only following ${config.mime_types} mime_types are allowed`);
                     }
                 } else {
                     cb(null, true);

@@ -57,17 +57,17 @@
                   <i class="fa fa-database fa-2px" aria-hidden="true"></i>
                   <span>Size limit</span>
                 </div>
-                <span class="desc-value">{{e.sizeLimit | materiaByte}}</span>
+                <span class="desc-value">{{e.size_limit | materiaByte}}</span>
               </div>
               <div fxLayout="column" class="desc">
                 <div fxLayout="row" fxLayoutAlign="start center" class="desc-title">
                   <mat-icon>file_copy</mat-icon>
                   <span>MIME Types</span>
                 </div>
-                <mat-chip-list *ngIf="e.mimeTypes && e.mimeTypes.length">
-                  <mat-chip *ngFor="let type of e.mimeTypes">{{ type }}</mat-chip>
+                <mat-chip-list *ngIf="e.mime_types && e.mime_types.length">
+                  <mat-chip *ngFor="let type of e.mime_types">{{ type }}</mat-chip>
                 </mat-chip-list>
-                <mat-chip-list *ngIf="!e.mimeTypes || ! e.mimeTypes.length">
+                <mat-chip-list *ngIf="!e.mime_types || ! e.mime_types.length">
                   <mat-chip>All</mat-chip>
                 </mat-chip-list>
               </div>
@@ -87,7 +87,7 @@
           </div>
           <mat-divider></mat-divider>
           <div fxLayout="column" fxLayoutAlign="center center">
-            <h4 class="desc-value" style="font-size: 20px; font-size: 300;">Test your endpoint</h4>
+            <h4 class="desc-value" style="font-size: 18px; font-size: 300;">Test your endpoint</h4>
             <div fxLayout="column" style="width: 100%; min-height: 250px;">
               <materia-upload-form [type]="e.type ? e.type : 'single'" [url]="apiUrl + e.url" (uploadSucceed)="getUploadedFiles()"></materia-upload-form>
             </div>
@@ -109,9 +109,9 @@
       </h2>
     </div>
     <div fxLayout="column">
-        <div *ngIf="! uploadedFiles || ! uploadedFiles.length" fxLayout="column" fxLayoutAlign="center center" style="height: 200px;">
-            <span style="margin: 15px; font-style: italic;">You haven't any uploaded files yet</span>
-          </div>
+      <div *ngIf="! uploadedFiles || ! uploadedFiles.length" fxLayout="column" fxLayoutAlign="center center" style="height: 200px;">
+        <span style="margin: 15px; font-style: italic;">You haven't any uploaded files yet</span>
+      </div>
       <div fxLayout="column" *ngIf="uploadedFiles && uploadedFiles.length">
         <table mat-table [dataSource]="uploadedFiles" class="mat-elevation-z8" style="margin-bottom: 15px;">
           <ng-container matColumnDef="name">
@@ -147,34 +147,38 @@
       </mat-toolbar>
       <form [formGroup]="endpointForm" fxLayout="column" style="padding: 0 24px 24px 24px;">
         <mat-form-field>
-          <mat-select formControlName="type" placeholder="Upload type">
+          <mat-select formControlName="type" placeholder="Upload type" required>
             <mat-option value="single">Single</mat-option>
             <mat-option value="multiple">Multiple</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Url" formControlName="url">
+          <input matInput placeholder="Url" formControlName="url" required>
           <span matPrefix>api/&nbsp;</span>
-          <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">You already have a POST endpoint with this
-            name</mat-error>
+          <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">
+            You already have a POST endpoint with this name
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Destination folder" formControlName="dest">
+          <input matInput placeholder="Destination folder" formControlName="dest" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="File input name" formControlName="input_name" required>
         </mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-form-field fxFlex>
-            <input matInput placeholder="File size limit (bytes)" type="number" formControlName="sizeLimit">
+            <input matInput placeholder="File size limit (bytes)" type="number" formControlName="size_limit">
           </mat-form-field>
           <span style="margin: 0 10px; font-weight: bold;">
-             {{ endpointForm.controls['sizeLimit'].value | materiaByte }}
+            {{ endpointForm.controls['size_limit'].value | materiaByte }}
           </span>
         </div>
         <mat-form-field *ngIf="endpointForm.controls['type'].value === 'multiple'">
-          <input matInput placeholder="Max file count" type="number" formControlName="maxFileCount">
+          <input matInput placeholder="Max file count" type="number" formControlName="max_file_count">
         </mat-form-field>
         <mat-form-field class="example-chip-list">
           <mat-chip-list #chipList>
-            <mat-chip *ngFor="let type of mimeTypesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
+            <mat-chip *ngFor="let type of mime_typesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
               {{type}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
