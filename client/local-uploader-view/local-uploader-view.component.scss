@@ -21,11 +21,10 @@ i.fa {
 	width: 29px;
 }
 .desc {
-	margin-bottom: 20px;
-	margin-right: 40px;
+	padding: 0 15px 15px 15px;
 }
 .desc-title {
-	font-size: 20px;
+	font-size: 15px;
 	font-weight: 400;
 	margin-bottom: 10px;
 	mat-icon {
@@ -38,7 +37,7 @@ i.fa {
 	}
 }
 .desc-value {
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: 200;
 }
 td.mat-cell {

@@ -6,7 +6,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" style="min-height: 50px; margin-bottom: 10px;">
       <h2 class="mat-title" fxLayout="row" fxLayoutAlign="start center" fxFlex style="margin-bottom: 0">
         <mat-icon [style.marginRight.px]="8">settings_input_component</mat-icon>
-        Upload endpoints list
+        Upload endpoints
       </h2>
       <div fxLayout="row" fxLayoutAlign="center center">
         <button mat-mini-fab matTooltip="Add upload endpoint" matTooltipPosition="left" (click)="openEndpointEditor()">
@@ -28,7 +28,9 @@
         <ng-template matExpansionPanelContent>
           <div fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="start center" class="desc">
-              <button mat-icon-button matTooltip="Menu" style="margin-right: 5px;" [matMenuTriggerFor]="menu">
+              <mat-icon style="margin-right: 5px;">link</mat-icon>
+              <span class="desc-value" style="font-size: 18px; font-size: 500" fxFlex>{{apiUrl}}{{e.url}}</span>
+              <button mat-icon-button matTooltip="Menu" style="margin: 5px;" [matMenuTriggerFor]="menu">
                 <mat-icon>settings</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
@@ -41,9 +43,8 @@
                   <span>Delete</span>
                 </button>
               </mat-menu>
-              <span class="desc-value" style="font-size: 25px; font-size: 300">{{apiUrl}}{{e.url}}</span>
             </div>
-            <div fxLayout="row wrap" style="padding: 0 15px 15px 15px;">
+            <div fxLayout="row wrap">
               <div fxLayout="column" class="desc">
                 <div fxLayout="row" fxLayoutAlign="start center" class="desc-title">
                   <mat-icon>folder</mat-icon>
