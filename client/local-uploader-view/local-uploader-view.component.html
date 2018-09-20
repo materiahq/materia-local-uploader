@@ -89,7 +89,7 @@
           <div fxLayout="column" fxLayoutAlign="center center">
             <h4 class="desc-value" style="font-size: 18px; font-size: 300;">Test your endpoint</h4>
             <div fxLayout="column" style="width: 100%; min-height: 250px;">
-              <materia-upload-form [type]="e.type ? e.type : 'single'" [url]="apiUrl + e.url" (uploadSucceed)="getUploadedFiles()"></materia-upload-form>
+              <materia-upload-form [type]="e.type ? e.type : 'single'" [url]="apiUrl + e.url" [input_name]="e.input_name" (uploadSucceed)="getUploadedFiles()"></materia-upload-form>
             </div>
           </div>
         </ng-template>

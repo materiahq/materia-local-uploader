@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material';
 export class UploadFormComponent implements OnInit {
   @Input() type: string; // single or multiple
   @Input() url: string;
+  @Input() input_name: string;
   @Output() uploadSucceed = new EventEmitter<void>();
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
 
@@ -41,10 +42,10 @@ export class UploadFormComponent implements OnInit {
       this.uploadSuccessResponse = null;
       const data = new FormData();
       if (this.type === 'single') {
-        data.append('file', this.selectedFiles[0]);
+        data.append(this.input_name, this.selectedFiles[0]);
       } else {
         this.selectedFiles.forEach((file) => {
-          data.append('files', file);
+          data.append(this.input_name, file);
         });
       }
       this.http.post(this.url, data).subscribe((result: any) => {

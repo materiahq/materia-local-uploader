@@ -1,12 +1,12 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <div fxLayout="column" fxLayoutAlign="center center" class="drop-area" *ngIf="! uploading && ! uploadSuccessResponse && ! uploadFailResponse">
-    <input type="file" name="files" (change)="fileChange($event)" #fileInput multiple *ngIf="type === 'multiple'">
-    <input type="file" name="file" (change)="fileChange($event)" #fileInput *ngIf="type === 'single'"/>
+    <input type="file" [name]="input_name" (change)="fileChange($event)" #fileInput multiple *ngIf="type === 'multiple'">
+    <input type="file" [name]="input_name" (change)="fileChange($event)" #fileInput *ngIf="type === 'single'"/>
     <button mat-raised-button (click)="fileInput.nativeElement.click()" *ngIf="! selectedFiles">
       <mat-icon>cloud_upload</mat-icon>
       {{ type === 'single' ? 'Select File' : 'Select Files'}}
     </button>
-    <div *ngIf="selectedFiles && !uploading && ! uploadSuccessResponse && ! uploadFailResponse" fxLayout="row wrap" fxLayoutAlign="center center">
+    <div *ngIf="selectedFiles && ! uploading && ! uploadSuccessResponse && ! uploadFailResponse" fxLayout="row wrap" fxLayoutAlign="center center">
         <div *ngFor="let selectedFile of selectedFiles; let i = index" fxLayout="column" fxLayoutAlign="center center" style="position: relative; padding: 15px; width: 180px;">
           <button mat-icon-button (click)="removeFile(i)" matTooltip="Remove file" style="position: absolute; top: 0; right: 0;">
             <mat-icon>close</mat-icon>
