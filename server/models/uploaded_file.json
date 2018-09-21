@@ -93,7 +93,7 @@
           "type": "text",
           "required": true,
           "component": "input"
-		}]
+        }]
       }
     },
     {
@@ -104,7 +104,23 @@
           "name": "name",
           "operator": "=",
           "value": "=name"
-		}]
+        }]
+      }
+    },
+    {
+      "id": "deleteByName",
+      "type": "custom",
+      "opts": {
+        "model": "uploaded-file",
+        "action": "deleteByName",
+        "params": [
+          {
+            "name": "name",
+            "type": "text",
+            "required": true,
+            "component": "input"
+          }
+        ]
       }
     }
   ]

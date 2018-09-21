@@ -1,4 +1,4 @@
-import { createReadStream, stat, readFile } from 'fs';
+import { createReadStream, stat, readFile, unlink } from 'fs';
 
 class UploadedFile {
     constructor(private app: any) { }
@@ -28,7 +28,7 @@ class UploadedFile {
 
     getFileContentStream(params) {
         return new Promise((resolve, reject) => {
-            this._getFileByName(params.name).then(file => {
+            this._getFileByName(params).then(file => {
                 if (!file) {
                     reject(new Error(`File not found`));
                 }
@@ -41,6 +41,25 @@ class UploadedFile {
                     }
                 });
             }).catch(err => reject(err.message));
+        });
+    }
+
+    deleteByName(params) {
+        return new Promise((resolve, reject) => {
+            this._getFileByName(params).then(file => {
+                if (!file) {
+                    reject(new Error(`File not found`));
+                }
+                unlink(file.path, (err) => {
+                    if (err) {
+                        reject(err.message);
+                    }
+                    const deleteQuery = this.app.entities.get('uploaded_file').getQuery('delete');
+                    deleteQuery.run({id_uploaded: file.id_uploaded}).then((result) => {
+                        resolve(result);
+                    }).catch((error) => reject(error.message));
+                });
+            });
         });
     }
 
