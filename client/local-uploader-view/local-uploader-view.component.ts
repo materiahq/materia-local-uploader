@@ -90,7 +90,8 @@ export class LocalUploaderViewComponent implements OnInit {
 
     openEndpointEditor() {
         this.initEndpointForm();
-        const dialogRef = this.dialog.open(this.endpointEditor, { panelClass: 'no-padding', maxWidth: '350px' });
+        const dialogRef = this.dialog.open(this.endpointEditor, {
+            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], maxWidth: '350px' });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
@@ -113,7 +114,8 @@ export class LocalUploaderViewComponent implements OnInit {
     editEndpoint(endpoint) {
         this.initEndpointFormWithValue(endpoint);
         this.selectedEndpoint = endpoint;
-        const dialogRef = this.dialog.open(this.endpointEditor, { panelClass: 'no-padding', maxWidth: '350px' });
+        const dialogRef = this.dialog.open(this.endpointEditor, {
+            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], maxWidth: '350px' });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;

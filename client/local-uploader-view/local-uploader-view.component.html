@@ -141,77 +141,79 @@
     </div>
   </div>
   <ng-template #endpointEditor>
-    <div fxLayout="column" style="overflow: auto;">
+    <div fxLayout="column">
       <mat-toolbar color="primary">
         Upload Endpoint Editor
       </mat-toolbar>
-      <form [formGroup]="endpointForm" fxLayout="column" style="padding: 0 24px 24px 24px;">
-        <mat-form-field>
-          <mat-select formControlName="type" placeholder="Upload type" required>
-            <mat-option value="single">Single</mat-option>
-            <mat-option value="multiple">Multiple</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Url" formControlName="url" required>
-          <span matPrefix>api/&nbsp;</span>
-          <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">
-            You already have a POST endpoint with this name
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Destination folder" formControlName="dest" required>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="File input name" formControlName="input_name" required>
-        </mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <mat-form-field fxFlex>
-            <input matInput placeholder="File size limit (bytes)" type="number" formControlName="size_limit">
-          </mat-form-field>
-          <span style="margin: 0 10px; font-weight: bold;">
-            {{ endpointForm.controls['size_limit'].value | materiaByte }}
-          </span>
-        </div>
-        <mat-form-field *ngIf="endpointForm.controls['type'].value === 'multiple'">
-          <input matInput placeholder="Max file count" type="number" formControlName="max_file_count">
-        </mat-form-field>
-        <mat-form-field class="example-chip-list">
-          <mat-chip-list #chipList>
-            <mat-chip *ngFor="let type of mime_typesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
-              {{type}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <input placeholder="MIME types allowed" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addAllowedMimeType($event)">
-          </mat-chip-list>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select placeholder="Permissions" formControlName="permissions" multiple>
-            <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-checkbox formControlName="fetch_uploaded_file">Fetch uploaded file endpoint</mat-checkbox>
-        <div *ngIf="endpointForm.controls['fetch_uploaded_file'].value" fxLayout="column">
+      <mat-dialog-content>
+        <form [formGroup]="endpointForm" fxLayout="column" style="padding: 0 24px 24px 24px;">
           <mat-form-field>
-            <input matInput placeholder="Fetch Uploaded File url" formControlName="fetch_uploaded_file_url">
+            <mat-select formControlName="type" placeholder="Upload type" required>
+              <mat-option value="single">Single</mat-option>
+              <mat-option value="multiple">Multiple</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Url" formControlName="url" required>
             <span matPrefix>api/&nbsp;</span>
             <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">
               You already have a POST endpoint with this name
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <mat-select placeholder="Fetch Uploaded File Permissions" formControlName="fetch_uploaded_file_permissions" multiple>
+            <input matInput placeholder="Destination folder" formControlName="dest" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="File input name" formControlName="input_name" required>
+          </mat-form-field>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field fxFlex>
+              <input matInput placeholder="File size limit (bytes)" type="number" formControlName="size_limit">
+            </mat-form-field>
+            <span style="margin: 0 10px; font-weight: bold;">
+              {{ endpointForm.controls['size_limit'].value | materiaByte }}
+            </span>
+          </div>
+          <mat-form-field *ngIf="endpointForm.controls['type'].value === 'multiple'">
+            <input matInput placeholder="Max file count" type="number" formControlName="max_file_count">
+          </mat-form-field>
+          <mat-form-field class="example-chip-list">
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let type of mime_typesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
+                {{type}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="MIME types allowed" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addAllowedMimeType($event)">
+            </mat-chip-list>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Permissions" formControlName="permissions" multiple>
               <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
-
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <button mat-raised-button color="primary" mat-dialog-close="save" style="margin-right: 10px;">SAVE</button>
-          <button mat-raised-button mat-dialog-close="cancel">CANCEL</button>
-        </div>
-      </form>
+          <mat-checkbox formControlName="fetch_uploaded_file">Fetch uploaded file endpoint</mat-checkbox>
+          <div *ngIf="endpointForm.controls['fetch_uploaded_file'].value" fxLayout="column">
+            <mat-form-field>
+              <input matInput placeholder="Fetch Uploaded File url" formControlName="fetch_uploaded_file_url">
+              <span matPrefix>api/&nbsp;</span>
+              <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">
+                You already have a POST endpoint with this name
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Fetch Uploaded File Permissions" formControlName="fetch_uploaded_file_permissions" multiple>
+                <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" mat-dialog-close="save" style="margin-right: 10px;">SAVE</button>
+            <button mat-raised-button mat-dialog-close="cancel">CANCEL</button>
+          </div>
+        </form>
+      </mat-dialog-content>
     </div>
   </ng-template>
 </mat-card>
