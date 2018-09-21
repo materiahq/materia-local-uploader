@@ -28,7 +28,7 @@ import {
 
 import { Addon } from '@materia/addons';
 
-import { LocalUploaderViewComponent } from './local-uploader-view/local-uploader-view.component';
+import { LocalUploaderViewComponent } from './components/local-uploader-view/local-uploader-view.component';
 import { UploadFormComponent } from './components/upload-form/upload-form.component';
 import { BytePipe } from './pipes/byte.pipe';
 import { ConfirmModalComponent } from './dialogs/confirm-modal';

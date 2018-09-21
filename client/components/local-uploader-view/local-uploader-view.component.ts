@@ -6,8 +6,8 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { AddonView } from '@materia/addons';
 
-import { BytePipe } from '../pipes/byte.pipe';
-import { ConfirmModalComponent } from '../dialogs/confirm-modal';
+import { BytePipe } from '../../pipes/byte.pipe';
+import { ConfirmModalComponent } from '../../dialogs/confirm-modal';
 
 @AddonView('@materia/local-uploader')
 @Component({
@@ -172,7 +172,7 @@ export class LocalUploaderViewComponent implements OnInit {
             permissions: [['Anyone']],
             max_file_count: null,
             fetch_uploaded_file: false,
-            fetch_uploaded_file_url: [{ value: '', disabled: true }],
+            fetch_uploaded_file_url: [{ value: '', disabled: true }, [this.fetchUrlValidator.bind(this)]],
             fetch_uploaded_file_permissions: [['Anyone']]
         });
         this.watchFormUrl();
@@ -190,8 +190,8 @@ export class LocalUploaderViewComponent implements OnInit {
             max_file_count: endpoint.max_file_count ? endpoint.max_file_count : null,
             fetch_uploaded_file: endpoint.fetch_uploaded_file,
             fetch_uploaded_file_url: endpoint.fetch_uploaded_file ?
-                [{ value: endpoint.fetch_uploaded_file_url, disabled: true }] :
-                [{ value: `${endpoint.url.substr(1)}/:name`, disabled: true }],
+                [{ value: endpoint.fetch_uploaded_file_url, disabled: true }, [this.fetchUrlValidator.bind(this)]] :
+                [{ value: `${endpoint.url.substr(1)}/:name`, disabled: true }, [this.fetchUrlValidator.bind(this)]],
             fetch_uploaded_file_permissions: endpoint.fetch_uploaded_file ? [endpoint.fetch_uploaded_file_permissions] : [['Anyone']]
         });
         this.watchFormUrl();
@@ -217,6 +217,17 @@ export class LocalUploaderViewComponent implements OnInit {
         const url = control.value;
         const existingUrl = this.endpoints.map(e => e.method + e.url);
         if (existingUrl.indexOf(`post/${url}`) !== -1) {
+            return {
+                exists: true
+            };
+        }
+        return null;
+    }
+
+    fetchUrlValidator(control: FormControl) {
+        const url = control.value;
+        const existingUrl = this.endpoints.map(e => e.method + e.url);
+        if (existingUrl.indexOf(`get/${url}`) !== -1) {
             return {
                 exists: true
             };

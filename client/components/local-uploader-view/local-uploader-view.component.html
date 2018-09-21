@@ -89,7 +89,8 @@
           <div fxLayout="column" fxLayoutAlign="center center">
             <h4 class="desc-value" style="font-size: 18px; font-size: 300;">Test your endpoint</h4>
             <div fxLayout="column" style="width: 100%; min-height: 250px;">
-              <materia-upload-form [type]="e.type ? e.type : 'single'" [url]="apiUrl + e.url" [input_name]="e.input_name" (uploadSucceed)="getUploadedFiles()"></materia-upload-form>
+              <materia-upload-form [type]="e.type ? e.type : 'single'" [url]="apiUrl + e.url" [input_name]="e.input_name"
+                (uploadSucceed)="getUploadedFiles()"></materia-upload-form>
             </div>
           </div>
         </ng-template>
@@ -146,7 +147,7 @@
         Upload Endpoint Editor
       </mat-toolbar>
       <mat-dialog-content>
-        <form [formGroup]="endpointForm" fxLayout="column" style="padding: 0 24px 24px 24px;">
+        <form [formGroup]="endpointForm" fxLayout="column">
           <mat-form-field>
             <mat-select formControlName="type" placeholder="Upload type" required>
               <mat-option value="single">Single</mat-option>
@@ -197,17 +198,18 @@
             <mat-form-field>
               <input matInput placeholder="Fetch Uploaded File url" formControlName="fetch_uploaded_file_url">
               <span matPrefix>api/&nbsp;</span>
-              <mat-error *ngIf="endpointForm.controls['url'].errors?.exists">
-                You already have a POST endpoint with this name
+              <mat-error *ngIf="endpointForm.controls['fetch_uploaded_file_url'].errors?.exists">
+                You already have a GET endpoint with this name
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <mat-select placeholder="Fetch Uploaded File Permissions" formControlName="fetch_uploaded_file_permissions" multiple>
+              <mat-select placeholder="Fetch Uploaded File Permissions" formControlName="fetch_uploaded_file_permissions"
+                multiple>
                 <mat-option *ngFor="let perm of permissions" [value]="perm.name">{{perm.name}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-  
+
           <div fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button color="primary" mat-dialog-close="save" style="margin-right: 10px;">SAVE</button>
             <button mat-raised-button mat-dialog-close="cancel">CANCEL</button>
