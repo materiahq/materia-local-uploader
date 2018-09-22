@@ -12,7 +12,6 @@ class UploadedFile {
                 this._checkIfFile(file.path).then((isFile) => {
                     if (isFile) {
                         const config = this.app.addons.addonsConfig['@materia/local-uploader'].endpoints.find(e => e.url === file.from);
-                        console.log('COnfig : ', config);
                         if (config && ! config.fetch_uploaded_file) {
                             reject(new Error('Fetching is not allowed for this file'));
                         }

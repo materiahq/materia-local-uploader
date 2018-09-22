@@ -23,7 +23,8 @@ import {
   MatMenuModule,
   MatBadgeModule,
   MatTableModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 import { Addon } from '@materia/addons';
@@ -59,7 +60,8 @@ import { ConfirmModalComponent } from './dialogs/confirm-modal';
     MatMenuModule,
     MatBadgeModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatAutocompleteModule
   ],
   declarations: [LocalUploaderViewComponent, UploadFormComponent, BytePipe, ConfirmModalComponent],
   exports: [LocalUploaderViewComponent]

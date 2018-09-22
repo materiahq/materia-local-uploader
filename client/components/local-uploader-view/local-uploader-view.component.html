@@ -180,12 +180,17 @@
           </mat-form-field>
           <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList>
-              <mat-chip *ngFor="let type of mime_typesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
+              <mat-chip *ngFor="let type of mimeTypesAllowed" selectable="true" removable="true" (removed)="removeAllowedMimeType(type)">
                 {{type}}
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
-              <input placeholder="MIME types allowed" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addAllowedMimeType($event)">
+              <input #mimeTypes placeholder="MIME types allowed" [formControl]="mimeTypesControl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                matChipInputAddOnBlur="false" (matChipInputTokenEnd)="addAllowedMimeType($event)">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let type of filteredMimeTypes | async" [value]="type">
+                    {{ type }}
+                  </mat-option>
+                </mat-autocomplete>
             </mat-chip-list>
           </mat-form-field>
           <mat-form-field>

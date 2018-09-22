@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatAutocompleteSelectedEvent } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { startWith, map } from 'rxjs/operators';
+import { MIMETypes } from './mime-types.list';
 
 import { AddonView } from '@materia/addons';
 
@@ -31,12 +33,17 @@ export class LocalUploaderViewComponent implements OnInit {
     permissions: Object;
     endpointForm: FormGroup;
     edition: boolean;
-    mime_typesAllowed: any[];
+    mimeTypesAllowed: any[];
     deleteMessage: string;
     deleteMessageDetail: string;
     endpoints: any[];
     selectedEndpoint: any;
     watchingFormUrl: boolean;
+    filteredMimeTypes: any;
+    mimeTypesControl: FormControl;
+    allMimeTypes: string[];
+
+    @ViewChild('mimeTypes') mimeTypesInput: ElementRef<HTMLInputElement>;
 
     get uploadEndpoints() {
         if (this.settings && this.settings.endpoints && this.settings.endpoints.length) {
@@ -46,7 +53,18 @@ export class LocalUploaderViewComponent implements OnInit {
         }
     }
 
-    constructor(private http: HttpClient, private fb: FormBuilder, private dialog: MatDialog) { }
+    constructor(private http: HttpClient, private fb: FormBuilder, private dialog: MatDialog) {
+        this.allMimeTypes = MIMETypes;
+        this.mimeTypesControl = new FormControl(null);
+        this.filteredMimeTypes = this.mimeTypesControl.valueChanges.pipe(
+            startWith(null),
+            map((fruit: string | null) => fruit ? this._filter(fruit) : this.allMimeTypes.slice()));
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.allMimeTypes.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+      }
 
     ngOnInit() {
         this.getUploadedFiles();
@@ -91,12 +109,12 @@ export class LocalUploaderViewComponent implements OnInit {
     openEndpointEditor() {
         this.initEndpointForm();
         const dialogRef = this.dialog.open(this.endpointEditor, {
-            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], maxWidth: '350px' });
+            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], width: '350px', maxHeight: '90%' });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
                 newEndpoint.url = `/${newEndpoint.url}`;
-                newEndpoint.mime_types = this.mime_typesAllowed.map(type => type.trim());
+                newEndpoint.mime_types = this.mimeTypesAllowed.map(type => type.trim());
                 if (newEndpoint.type === 'single') {
                     delete newEndpoint.max_file_count;
                 }
@@ -115,12 +133,12 @@ export class LocalUploaderViewComponent implements OnInit {
         this.initEndpointFormWithValue(endpoint);
         this.selectedEndpoint = endpoint;
         const dialogRef = this.dialog.open(this.endpointEditor, {
-            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], maxWidth: '350px' });
+            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], width: '350px', maxHeight: '90%' });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
                 newEndpoint.url = endpoint.url;
-                newEndpoint.mime_types = this.mime_typesAllowed.map(type => type.trim());
+                newEndpoint.mime_types = this.mimeTypesAllowed.map(type => type.trim());
                 if (newEndpoint.type === 'single') {
                     delete newEndpoint.max_file_count;
                 }
@@ -148,21 +166,30 @@ export class LocalUploaderViewComponent implements OnInit {
     }
 
     addAllowedMimeType(type) {
-        if (type.value && type.value.length > 5) {
-            this.mime_typesAllowed.push(type.value);
+        if (type.value && type.value.length > 5 && this.mimeTypesAllowed.indexOf(type.value) === -1) {
+            this.mimeTypesAllowed.push(type.value);
         }
         if (type.input) {
             type.input.value = '';
         }
+        this.mimeTypesControl.setValue(null);
     }
 
+    selected(event: MatAutocompleteSelectedEvent): void {
+        if (this.mimeTypesAllowed.indexOf(event.option.viewValue) === -1) {
+            this.mimeTypesAllowed.push(event.option.viewValue);
+            this.mimeTypesControl.setValue(null);
+            this.mimeTypesInput.nativeElement.value = '';
+        }
+      }
+
     removeAllowedMimeType(type) {
-        const index = this.mime_typesAllowed.findIndex(t => t === type.value);
-        this.mime_typesAllowed.splice(index, 1);
+        const index = this.mimeTypesAllowed.findIndex(t => t === type.value);
+        this.mimeTypesAllowed.splice(index, 1);
     }
 
     private initEndpointForm() {
-        this.mime_typesAllowed = [];
+        this.mimeTypesAllowed = [];
         this.endpointForm = this.fb.group({
             type: ['single', Validators.required],
             url: ['', [Validators.required, this.urlEndpointValidator.bind(this)]],
@@ -179,7 +206,7 @@ export class LocalUploaderViewComponent implements OnInit {
     }
 
     private initEndpointFormWithValue(endpoint) {
-        this.mime_typesAllowed = endpoint.mime_types ? [...endpoint.mime_types] : [];
+        this.mimeTypesAllowed = endpoint.mime_types ? [...endpoint.mime_types] : [];
         this.endpointForm = this.fb.group({
             type: [endpoint.type ? endpoint.type : 'single', Validators.required],
             url: [{ value: endpoint.url.substr(1), disabled: true }, Validators.required],
