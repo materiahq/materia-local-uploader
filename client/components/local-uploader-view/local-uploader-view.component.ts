@@ -96,7 +96,7 @@ export class LocalUploaderViewComponent implements OnInit {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
                 newEndpoint.url = `/${newEndpoint.url}`;
-                newEndpoint.mime_types = this.mime_typesAllowed;
+                newEndpoint.mime_types = this.mime_typesAllowed.map(type => type.trim());
                 if (newEndpoint.type === 'single') {
                     delete newEndpoint.max_file_count;
                 }
@@ -120,7 +120,7 @@ export class LocalUploaderViewComponent implements OnInit {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
                 newEndpoint.url = endpoint.url;
-                newEndpoint.mime_types = this.mime_typesAllowed;
+                newEndpoint.mime_types = this.mime_typesAllowed.map(type => type.trim());
                 if (newEndpoint.type === 'single') {
                     delete newEndpoint.max_file_count;
                 }
