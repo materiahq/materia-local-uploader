@@ -47,7 +47,15 @@ export default class MateriaLocalUploader {
                         package: '@materia/local-uploader',
                         path: join(this.app.path, 'node_modules', '@materia/local-uploader'),
                         logo: MateriaLocalUploader.logo
-                    }
+                    },
+                    params: [
+                        {
+                            name: 'name',
+                            required: true,
+                            component: 'input',
+                            type: 'text'
+                        }
+                    ]
                 }, { save: false });
             }
         });
