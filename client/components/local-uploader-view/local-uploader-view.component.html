@@ -27,9 +27,18 @@
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
           <div fxLayout="column">
-            <div fxLayout="row" fxLayoutAlign="start center" class="desc">
+            <div fxLayout="row" fxLayoutAlign="start start" class="desc">
               <mat-icon style="margin-right: 5px;">link</mat-icon>
-              <span class="desc-value" style="font-size: 18px; font-size: 500" fxFlex>{{apiUrl}}{{e.url}}</span>
+              <div fxLayout="column" fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center" style="margin: 5px 0;">
+                  <span class="badge-method" [style.background]="methodsColor['post']">POST</span>
+                  <span class="desc-value" style="font-size: 18px; font-size: 500" fxFlex>{{apiUrl}}{{e.url}}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" *ngIf="e.fetch_uploaded_file && e.fetch_uploaded_file_url" style="margin: 5px 0;">
+                    <span class="badge-method" [style.background]="methodsColor['get']">GET</span>
+                    <span class="desc-value" style="font-size: 18px; font-size: 500" fxFlex>{{apiUrl}}{{e.fetch_uploaded_file_url}}</span>
+                  </div>
+              </div>
               <button mat-icon-button matTooltip="Menu" style="margin: 5px;" [matMenuTriggerFor]="menu">
                 <mat-icon>settings</mat-icon>
               </button>

@@ -1,51 +1,72 @@
 :host {
-	display: flex;
-	flex: 1;
-	width: 100%;
-	flex-direction: row;
+  display: flex;
+  flex: 1;
+  width: 100%;
+  flex-direction: row;
 }
+
 form {
-	padding: 0 24px 24px 24px;
+  padding: 0 24px 24px 24px;
 }
+
 mat-checkbox {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
+
 mat-card {
-	margin: 8px;
-	width: 100%;
-	overflow: auto;
-	padding: 0;
-	mat-divider {
-		position: relative;
-	}
+  margin: 8px;
+  width: 100%;
+  overflow: auto;
+  padding: 0;
+
+  mat-divider {
+    position: relative;
+  }
 }
+
 p {
-	color: #666;
+  color: #666;
 }
+
 i.fa {
-	font-size: 24px;
-	width: 29px;
+  font-size: 24px;
+  width: 29px;
 }
+
 .desc {
-	padding: 0 15px 15px 15px;
+  padding: 0 15px 15px 15px;
 }
+
 .desc-title {
-	font-size: 15px;
-	font-weight: 400;
-	margin-bottom: 10px;
-	mat-icon {
-		margin-right: 8px;
-	}
-	i.fa {
-		font-size: 24px;
-		width: 24px;
-		margin-right: 8px;
-	}
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 10px;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+
+  i.fa {
+    font-size: 24px;
+    width: 24px;
+    margin-right: 8px;
+  }
 }
+
 .desc-value {
-	font-size: 15px;
-	font-weight: 200;
+  font-size: 15px;
+  font-weight: 200;
 }
+
 td.mat-cell {
-	margin: 0 10px;
+  margin: 0 10px;
+}
+
+.badge-method {
+  padding: 5px;
+  margin-right: 8px;
+  border-radius: 3px;
+  max-height: 16px;
+  min-height: 16px;
+  height: 16px;
 }

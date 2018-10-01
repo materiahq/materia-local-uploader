@@ -42,6 +42,13 @@ export class LocalUploaderViewComponent implements OnInit {
     filteredMimeTypes: any;
     mimeTypesControl: FormControl;
     allMimeTypes: string[];
+    methodsColor: { [method: string]: string } = {
+        get: '#C8E6C9',
+        post: '#B3E5FC',
+        put: '#FFCCBC',
+        delete: '#FFCDD2',
+        patch: '#D7CCC8'
+    };
 
     @ViewChild('mimeTypes') mimeTypesInput: ElementRef<HTMLInputElement>;
 
@@ -64,7 +71,7 @@ export class LocalUploaderViewComponent implements OnInit {
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
         return this.allMimeTypes.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
-      }
+    }
 
     ngOnInit() {
         this.getUploadedFiles();
@@ -109,7 +116,8 @@ export class LocalUploaderViewComponent implements OnInit {
     openEndpointEditor() {
         this.initEndpointForm();
         const dialogRef = this.dialog.open(this.endpointEditor, {
-            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], width: '350px', maxHeight: '90%' });
+            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], width: '350px', maxHeight: '90%'
+        });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
@@ -133,7 +141,8 @@ export class LocalUploaderViewComponent implements OnInit {
         this.initEndpointFormWithValue(endpoint);
         this.selectedEndpoint = endpoint;
         const dialogRef = this.dialog.open(this.endpointEditor, {
-            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], width: '350px', maxHeight: '90%' });
+            panelClass: ['no-padding', 'mat-dialog-content-no-padding'], width: '350px', maxHeight: '90%'
+        });
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 const newEndpoint = this.endpointForm.value;
@@ -181,7 +190,7 @@ export class LocalUploaderViewComponent implements OnInit {
             this.mimeTypesControl.setValue(null);
             this.mimeTypesInput.nativeElement.value = '';
         }
-      }
+    }
 
     removeAllowedMimeType(type) {
         const index = this.mimeTypesAllowed.findIndex(t => t === type.value);
