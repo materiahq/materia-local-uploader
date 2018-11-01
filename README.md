@@ -11,7 +11,7 @@ Warning: This addon is not scallable.
 
 ## Installation from NPM
 
-In your Materia application, run `yarn add @materia/local-uploader`
+In your Materia application, run `npm install @materia/local-uploader --save` or `yarn add @materia/local-uploader`
 
 Restart Materia Designer
 
@@ -43,4 +43,4 @@ and in your materia application
 npm link @materia/local-uploader
 ```
 
-then add `"@materia/local-uploader": "^0.1.0"` in the dependencies of the package.json - it will let Materia knows of the existance of the addon.
+then add `"@materia/local-uploader"` in the links array of the materia.json configuration file - it will let Materia knows of the existance of the addon.
