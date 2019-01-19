@@ -1,21 +1,17 @@
-import { join } from 'path';
+import { App } from '@materia/server';
 
 export default class MateriaLocalUploader {
     public static displayName = 'Local Uploader';
-    public static logo = 'https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png';
+    public static logo = 'https://raw.githubusercontent.com/materiahq/materia-website-content/master/logo/addons/local-uploader.png';
+    public static installSettings = [];
 
-    public static installSettings = [
-    ];
-
-    constructor(private app, private config) { }
+    constructor(private app: App, private config: any) { }
 
     afterLoadAPI() {
         if (this.config && this.config.endpoints && this.config.endpoints.length) {
             this.registerEndpoints();
         }
     }
-
-    uninstall(app) { }
 
     private registerEndpoints() {
         this.config.endpoints.forEach((endpoint) => {
@@ -28,12 +24,7 @@ export default class MateriaLocalUploader {
                 controller: 'upload',
                 action: endpoint.type && endpoint.type === 'single' ? 'uploadSingle' : 'uploadMultiple',
                 permissions: endpoint.permissions ? endpoint.permissions : [],
-                fromAddon: {
-                    name: MateriaLocalUploader.displayName,
-                    package: '@materia/local-uploader',
-                    path: join(this.app.path, 'node_modules', '@materia/local-uploader'),
-                    logo: MateriaLocalUploader.logo
-                }
+                fromAddon: this.app.addons.get('materia/local-uploader')
             }, { save: false });
             if (endpoint.fetch_uploaded_file) {
                 this.app.api.add({
@@ -42,12 +33,7 @@ export default class MateriaLocalUploader {
                     controller: 'upload',
                     action: 'getFileContent',
                     permissions: endpoint.fetch_uploaded_file_permissions,
-                    fromAddon: {
-                        name: MateriaLocalUploader.displayName,
-                        package: '@materia/local-uploader',
-                        path: join(this.app.path, 'node_modules', '@materia/local-uploader'),
-                        logo: MateriaLocalUploader.logo
-                    },
+                    fromAddon: this.app.addons.get('materia/local-uploader'),
                     params: [
                         {
                             name: 'name',
