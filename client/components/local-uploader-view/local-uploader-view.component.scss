@@ -4,7 +4,17 @@
   width: 100%;
   flex-direction: row;
 }
-
+.subtitle {
+  min-height: 60px;
+  padding: 5px 10px;
+}
+mat-toolbar {
+  font-weight: 200;
+  img {
+    margin-right: 10px;
+    height: 30px;
+  }
+}
 form {
   padding: 0 24px 24px 24px;
 }
