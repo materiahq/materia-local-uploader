@@ -1,6 +1,6 @@
 {
   "name": "@materia/local-uploader",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Upload files with multipart/form-data",
   "author": "team@getmateria.com",
   "license": "MIT",
