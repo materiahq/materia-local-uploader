@@ -24,7 +24,7 @@ export default class MateriaLocalUploader {
                 controller: 'upload',
                 action: endpoint.type && endpoint.type === 'single' ? 'uploadSingle' : 'uploadMultiple',
                 permissions: endpoint.permissions ? endpoint.permissions : [],
-                fromAddon: this.app.addons.get('materia/local-uploader')
+                fromAddon: this.app.addons.get('@materia/local-uploader')
             }, { save: false });
             if (endpoint.fetch_uploaded_file) {
                 this.app.api.add({
@@ -33,7 +33,7 @@ export default class MateriaLocalUploader {
                     controller: 'upload',
                     action: 'getFileContent',
                     permissions: endpoint.fetch_uploaded_file_permissions,
-                    fromAddon: this.app.addons.get('materia/local-uploader'),
+                    fromAddon: this.app.addons.get('@materia/local-uploader'),
                     params: [
                         {
                             name: 'name',
