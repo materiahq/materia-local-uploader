@@ -127,7 +127,7 @@
           <span style="margin: 15px; font-style: italic;">You haven't any uploaded files yet</span>
         </div>
         <div fxLayout="column" *ngIf="uploadedFiles?.length">
-          <table mat-table [dataSource]="uploadedFiles" class="mat-elevation-z8" style="margin-bottom: 15px;">
+          <table mat-table [dataSource]="uploadedFiles" class="mat-elevation-z8" style="margin-bottom: 15px; min-width: 100%;">
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>
               <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
