@@ -15,7 +15,8 @@ import {
   Validators,
   FormControl
 } from "@angular/forms";
-import { MatDialog, MatAutocompleteSelectedEvent } from "@angular/material";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatDialog } from "@angular/material/dialog";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Observable } from "rxjs";
 import { startWith, map } from "rxjs/operators";
