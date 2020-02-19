@@ -30,8 +30,6 @@ import { LocalUploaderViewComponent } from './components/local-uploader-view/loc
 import { UploadFormComponent } from './components/upload-form/upload-form.component';
 import { BytePipe } from './pipes/byte.pipe';
 import { ConfirmModalComponent } from './dialogs/confirm-modal';
-import { MateriaEndpointsService } from './services/materia-endpoints.service';
-import { UploadEndpointsService } from './services/upload-endpoints.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Addon('@materia/local-uploader')
@@ -65,7 +63,6 @@ import { HttpClientModule } from '@angular/common/http';
     MatAutocompleteModule
   ],
   declarations: [LocalUploaderViewComponent, UploadFormComponent, BytePipe, ConfirmModalComponent],
-  exports: [LocalUploaderViewComponent],
-  providers: []
+  exports: [LocalUploaderViewComponent]
 })
 export class LocalUploaderModule {}

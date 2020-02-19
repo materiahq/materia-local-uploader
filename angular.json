@@ -17,9 +17,9 @@
           },
           "configurations": {
             "production": {
-              "project": "ng-package.prod.json"
-            ,              "tsConfig": "tsconfig.lib.prod.json"
-}
+              "project": "ng-package.prod.json",
+              "tsConfig": "tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -45,5 +45,8 @@
       }
     }
   },
-  "defaultProject": "materia-local-uploader"
+  "defaultProject": "materia-local-uploader",
+  "cli": {
+    "analytics": "6c09d75b-13e7-4a6f-9b08-f66ac266ecda"
+  }
 }
