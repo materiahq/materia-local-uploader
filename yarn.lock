@@ -1003,15 +1003,15 @@
   resolved "https://registry.yarnpkg.com/@materia/addons/-/addons-1.0.0.tgz#3c1d22b1a4da5071d90604c03aba8478230f3afc"
   integrity sha512-D6uGXBuIkJYbqsnu/TyaVtv7XkL6x2+nD3WWxtBaQi591SiDMF4y/Wzw6o1jqnm17gPkIp5YX4XVXkfXRZ85vw==
 
-"@materia/interfaces@^1.0.0", "@materia/interfaces@^1.0.2":
+"@materia/interfaces@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@materia/interfaces/-/interfaces-1.0.2.tgz#fbc4c65a7cbefdc9c297cd04572179cb0075de24"
   integrity sha512-ScQR+tpz7czOOIzm1hBHsKqy6DALDdv7wHUvbB/lDB7p5s615PJOE824Jkm9G2+eaYOG1HHwWWCBq3YW/KmgPQ==
 
-"@materia/server@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@materia/server/-/server-1.1.0.tgz#233bedeb46aed1e57729bc22b3b80d5e815a1233"
-  integrity sha512-KCr/n5rrRlzUl9NmfWcwv28meP+DPV6/xHFqCZE/t6vBmsahcPf3AeuCxNpg55XGYvSqdyYSEKYjrCYoNWiXeA==
+"@materia/server@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@materia/server/-/server-1.1.1.tgz#eacdb8134c8578f3d48675a24eaaf8fbdfe15088"
+  integrity sha512-WA9TCLb/A+8qyjgQov/1oizAFFnOwY7mZXXn70fVF8newPkw79/r9DsQ1qeYQKEAHkPAYmuOLFq4NUf2lakk8A==
   dependencies:
     "@materia/interfaces" "^1.0.2"
     "@types/bluebird" "^3.5.26"
@@ -1038,7 +1038,7 @@
     passport-oauth2-client-password "^0.1.2"
     pg "^7.11.0"
     pg-hstore "^2.3.2"
-    sequelize "^5.21.3"
+    sequelize "^5.21.4"
     simple-git "^1.121.0"
     sqlite3 "4.1.1"
     uuid "^3.1.0"
@@ -8978,10 +8978,10 @@ sequelize-pool@^2.3.0:
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-2.3.0.tgz#64f1fe8744228172c474f530604b6133be64993d"
   integrity sha512-Ibz08vnXvkZ8LJTiUOxRcj1Ckdn7qafNZ2t59jYHMX1VIebTAOYefWdRYFt6z6+hy52WGthAHAoLc9hvk3onqA==
 
-sequelize@^5.21.3:
-  version "5.21.4"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-5.21.4.tgz#a49597dbd7862e4e1fb8ec819de04705d06d9d17"
-  integrity sha512-Ap1pZpvKb0o3H1HuBygMi9LfCJnwYLkXNBoISqkMJ17X6MbXuOB0Pz+XazawodU1uaMl9osCSrP+Uklkc6pgQg==
+sequelize@^5.21.4:
+  version "5.21.5"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-5.21.5.tgz#44056f3ab8862ccbfeebd5e03ce041c570477ea2"
+  integrity sha512-n9hR5K4uQGmBGK/Y/iqewCeSFmKVsd0TRnh0tfoLoAkmXbKC4tpeK96RhKs7d+TTMtrJlgt2TNLVBaAxEwC4iw==
   dependencies:
     bluebird "^3.5.0"
     cls-bluebird "^2.1.0"
