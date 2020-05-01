@@ -19,11 +19,15 @@
     "ng": "ng",
     "start": "ng serve",
     "test": "ng test",
-    "build:prod": "npm run clean && npm run build:client && npm run build:server && npm run postbuild",
+    "build:prod": "npm run clean && npm run build:client && npm run build:server && ncp LICENSE ./dist/LICENSE && ncp README.md ./dist/README.md && npm run postbuild",
     "build:server": "tsc -p ./tsconfig.server.json && ncp ./server/models ./dist/server/models && ncp ./server/api.json ./dist/server/api.json",
     "build:client": "ng build --prod",
     "postbuild": "node scripts/postbuild.js",
     "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "multer": "^1.3.1",
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.4",
@@ -67,9 +71,5 @@
   },
   "materia": {
     "addon": "MateriaLocalUploader"
-  },
-  "dependencies": {
-    "multer": "^1.3.1",
-    "tslib": "^1.10.0"
   }
 }
